@@ -1,0 +1,65 @@
+Objective-C 笔记
+
+Foundation Kit
+#import <Foundation/Foundation.h>
+
+struct
+_NSRange(location, length),
+CGPoint(x, y),
+CGSize(width, length),
+CGRect(cgpoint, cgsize),
+
+NSString(不可变):
+stringWithFormat(正则表示)
+length 返回字符串长度，字符个数，无末尾的结束符
+字符串比较：isEqualToString   return  YES/NO
+compare  return enum{
+                  NSOrderedAscending = -1,
+                  NSOrderedSame,
+                  NSOrderedDescending};
+         options掩码参数 (|)  NSCaseInsensitiveSearch 不区分大小写
+                            NSLiteralSearch  进行完全比较，区分大小写
+                            NSNumericSreach  比较字符个数
+hasPrefix, hasSurfix  return YES/NO
+*****  NSMutableString(可变，可修改字符串内容)
+	类比java  string  stringBuffer
+
+NSArray  NSMutableArray   枚举（迭代） - (NSEnumerator *)objectEnumerator    
+                                     NSEnumerator *enumerator = [array objectEnumerator];
+                          快速枚举（类似java的for） for (NSString *string in array){}
+
+NSDictionary  NSMutableDictionary 字典（类似map，key & value）
+
+NSNumber 封装基本数据类型 
+	+ (NSNumber *) numberWithChar: (char) value;
+	+ (NSNumber *) numberWithInt: (int) value;
+	+ (NSNumber *) numberWithFloat: (float) value;
+	...
+
+NSValue   NSNull
+
+
+NSString *home;
+home = [@"~" stringByExpandingTildeInPath];
+stringByExpandingTildeInPath方法将 ～ 替换成当前用户的主目录
+
+内存管理œ
+@autoreleasepool() 对加入池中的每一个对象执行一次release()
+对于一个对象保持retian()和release()调用的次数相等
+使用alloc/new/copy创建的对象需要进行释放（release/autorelease）	
+NSAutoreleasePool 自动释放池以栈的形式实现 先进先出 
+ios应用程序 不推荐使用自动释放池，自动释放池在程序运行过程中对内存进行自动检测和释放
+	  推荐使用ARC，其在程序编译的过程中自动识别实例对象的创建和释放，自动在代码中加入retain和release方法，实现内存的自动释放
+	  对于不支持ARC的对象，需要手动进行内存管理
+
+
+初始化操作
+id *object = [[id alloc] init];
+
+支持ARC的程序中 不需要dealloc
+
+copy: 值传递，新创建一个新的地址，原对象的retain不+1
+retain: 地址传递，复制的对象和原来对象地址相同，retain +1
+
+
+@interface className : parentClass (category) <protocol>

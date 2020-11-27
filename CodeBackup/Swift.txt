@@ -1,0 +1,33 @@
+Swift
+
+函数声明，调用时，最后一个参数可放在参数（）外，使用{}声明
+
+swift 强制要求每个参数都有个类型，但不需要明确类型 有时候可以是some type 即不关心真实的类型 swift会自动推测出变量的类型 代码中无需明确指出
+
+语法简化
+
+区间范围
+使用 ..<来创建一个不包含最大值的区间，使用 ... 来创造一个包含最大值和最小值的区间
+a..<b  ->  [a, b)
+a...b  -?  [a, b]
+
+cardContentFactory: (Int) -> CardContent
+      参数名            传递一个函数参数
+该函数的参数是int类型，返回值是CardContent类型
+
+private(set)  类本身能够读写的对象，类对象只读
+
+对于实现协议的class, struct 必须实现（初始化）协议的所有方法（变量）
+
+协议
+(protocols) {
+      var ...
+      func ...
+      ...
+}
+扩展协议
+extend (protocol) {
+      ...
+      ...
+      (no any var here)
+}

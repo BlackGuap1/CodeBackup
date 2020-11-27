@@ -1,0 +1,171 @@
+Java学习笔记
+
+String StringBuilder StringBuffer
+
+String 不可变对象 使用+拼接字符串时，每次都会创建新的字符串
+StringBuilder 可变对象，创建时预分配缓冲区，新增字符时 不会新增对象
+
+String [] fields = ["a", "b", "c"];
+String ret = String.join(",", fields);
+
+out: ret "a, b, c"
+
+包装类型
+基本类型 不可赋值为null  比较是否相同时使用 ==
+引用类型 可赋值为null    比较是否相同时使用 equals()
+将基本类型封装成一个引用类型 叫做包装
+
+基本类型	对应的引用类型
+boolean	java.lang.Boolean
+byte	java.lang.Byte
+short	java.lang.Short
+int	java.lang.Integer
+long	java.lang.Long
+float	java.lang.Float
+double	java.lang.Double
+char	java.lang.Character
+
+一般使用 Integer n = Integer.valueOf(num); 创建Integer (静态工厂方法)
+.toUnsignedInt 转换为无符号int类型
+
+枚举 
+enum也是一个class 是一个引用类型 但因为每个枚举的常量在JVM中只有唯一实例 可用==
+enum WeekDay
+{
+    SUN,
+    MON,
+    TUE;
+}
+int day = 1; if (day == WeekDay.MON) //compile error
+WeekDay day = WeekDay.MON; if (day == WeekDay.MON) // compile sucess
+
+实例方法
+name() 返回常量名
+ordinal() 返回常量的顺序，从0开始计数
+toString() 功能同name(),但可覆写
+
+异常
+
+异常和错误的区别：异常能被程序本身处理，错误是无法处理
+
+使用增强异常信息来查看NullPointerException来获取空指针（空引用）的异常报错
+开启增强异常信息 -> java -XX:+ShowCodeDetailsInExceptionMessage xxx.java
+
+开启断言
+java -ea(-enableassertions) xxx.java
+对特定类启动断言 -ea:com.itranswarp.sample.Main  com.itranswarp.sample.Main
+对特定包启动断言 -ea:com.itranswarp...   com.itranswarp
+
+进行异常的栈回溯
+public void printStackTrace():在控制台上打印 Throwable 对象封装的异常信息
+
+日志(JDK Logging)
+
+日志等级：
+SEVERE
+WARNING
+INFO(default)
+CONFIG
+FINE
+FINER
+FINEST
+
+
+Example:
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+...
+Logger logger = Logger.getGlobal();
+logger.info("Lebe here!");
+
+
+Commons Logging(第三方)
+
+Example:
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+...
+Log log = LogFactory.getLog(Main.class);
+log.info("Lebe here!");
+
+需要先下载org.apache.commons.logging包，将commons-logging-1.2.jar 放到Main.java同一目录下
+编译时 javac -cp commons-logging-1.2.jar Main.java
+执行时 java -cp .:commons-logging-1.2.jar Main
+
+打印等级
+FATAL
+ERROR
+WARNING
+INFO
+DEBUG
+TRACE
+
+浅拷贝：对基本数据类型进行值传递，对引用数据类型进行引用传递般的拷贝，此为浅拷贝。
+深拷贝：对基本数据类型进行值传递，对引用数据类型，创建一个新的对象，并复制其内容，此为深拷贝。
+
+区别点	重载方法	重写方法
+发生范围	同一个类	子类
+参数列表	必须修改	一定不能修改
+返回类型	可修改	子类方法返回值类型应比父类方法返回值类型更小或相等
+异常	可修改	子类方法声明抛出的异常类应比父类方法声明抛出的异常类更小或相等；
+访问修饰符	可修改	一定不能做更严格的限制（可以降低限制）
+发生阶段	编译期	运行期
+
+接口对象可以指向它的实现类对象
+
+反射
+获取非public 对象，方法，属性 调用前执行setAccessible(true)
+使用反射调用方法时，仍然遵循多态原则：即总是调用实际类型的覆写方法（如果存在）
+调用Class.newInstance()的局限是，它只能调用该类的public无参数构造方法
+
+泛型（函数模版）
+static int add(Pair<Number> p) 只接受类型为Pair<Number>的参数
+static int add(Pair<? extends Number> p) 可接受所有泛型类型为Number或Number子类的Pair类型
+
+extends
+使用类似<? extends Number>通配符作为方法参数时表示：
+1.方法内部可以调用获取Number引用的方法，例如：Number n = obj.getFirst();；
+2.方法内部无法调用传入Number引用的方法（null除外），例如：obj.setFirst(Number n);。
+即一句话总结：使用extends通配符表示只读
+使用类似<T extends Number>定义泛型类时表示：
+泛型类型T限定为Number以及Number的子类。
+
+super
+Pair<? super Integer>表示，方法参数接受所有泛型类型为Integer或Integer父类的Pair类型
+使用<? super Integer>通配符表示：
+允许调用set(? super Integer)方法传入Integer的引用；
+不允许调用get()方法获得Integer的引用。
+唯一例外是可以获取Object的引用：Object o = p.getFirst()。
+换句话说，使用<? super Integer>通配符作为方法参数，表示方法内部代码对于参数只写
+
+
+Spring 项目学习
+1. 论坛社区
+
+@Controller注解 表示当前类作为一个路由API的承载者
+@Component注解 表示将当前的类初始化实例化到Spring的上下文   --IOC
+@Autowired注解
+
+论坛通过github授权 登录用户并获取用户信息
+OAuth App
+Step:
+1. Users are redirected to request their GitHub identity
+2. Users are redirected back to your site by GitHub
+3. Your app accesses the API with the user's access token
+参考地址：https://docs.github.com/en/free-pro-team@latest/developers/apps/authorizing-oauth-apps
+
+github 
+access_token: 703cac0351b4c33b446020fbe2ac41c70fa1064e
+
+okhttp
+一个处理网络请求的框架，http客户端
+get a url 
+post to a server
+
+IDEA快捷键
+清除窗口 cmd + shift + F12
+
+
+
