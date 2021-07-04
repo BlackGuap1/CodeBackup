@@ -1,0 +1,3 @@
+/Users/guap1/Desktop/Coding/Branch/Templete/build/CMakeFiles/rebuild_cache.dir
+/Users/guap1/Desktop/Coding/Branch/Templete/build/CMakeFiles/edit_cache.dir
+/Users/guap1/Desktop/Coding/Branch/Templete/build/CMakeFiles/Temp.dir
