@@ -7,5 +7,7 @@
 #include <stdio.h>
 // linux调用系统api调用失败错误信息读取 errno.h
 #include <errno.h>
+// #include <iostream>
+#include <string>
 
 #endif /* SOCKET_H_ */
