@@ -27,3 +27,4 @@ Temporary Items
 
 # ignore directory (build file)
 ./Templete/build/
+./Templete/SocketDemo/build/
